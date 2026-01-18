@@ -1,0 +1,22 @@
+<h2>Products</h2>
+<a href="{% url 'product-create' %}">+ Create Product</a>
+<a href="{% url 'product-assign' %}">Assign to Bin</a>
+
+<table border="1" cellpadding="6">
+  <tr>
+    <th>SKU</th>
+    <th>Name</th>
+    <th>Image</th>
+  </tr>
+  {% for p in products %}
+  <tr>
+    <td>{{ p.sku }}</td>
+    <td>{{ p.name }}</td>
+    <td>
+      {% if p.image_url %}
+      <img src="{{ p.image_url }}" width="50" />
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>

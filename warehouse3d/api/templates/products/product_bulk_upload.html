@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bulk Product → Bin Upload</title>
+    <style>
+      body {
+        background: #0b1220;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .card {
+        width: 420px;
+        background: #111827;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      }
+      h2 {
+        margin-top: 0;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #2563eb;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      input[type="file"] {
+        width: 100%;
+        margin: 16px 0;
+      }
+      .msg {
+        margin-top: 12px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>📦 Bulk Product → Bin Upload</h2>
+      <p>Upload Excel to create products and assign to bins.</p>
+
+      <form id="uploadForm">
+        {% csrf_token %}
+        <input type="file" name="file" id="fileInput" accept=".xlsx" required />
+        <button type="submit">Upload Excel</button>
+      </form>
+
+      <div class="msg" id="msg"></div>
+    </div>
+
+    <script>
+      const form = document.getElementById("uploadForm");
+      const msg = document.getElementById("msg");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const file = document.getElementById("fileInput").files[0];
+        if (!file) return;
+
+        const fd = new FormData();
+        fd.append("file", file);
+
+        msg.textContent = "Uploading...";
+
+        try {
+          const res = await fetch("/api/products/bulk-upload/", {
+            method: "POST",
+            body: fd,
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) throw data;
+
+          msg.style.color = "#22c55e";
+          msg.textContent = `✅ Uploaded: ${data.created}, Skipped: ${data.skipped}`;
+        } catch (err) {
+          msg.style.color = "#ef4444";
+          msg.textContent = "❌ Upload failed";
+          console.error(err);
+        }
+      });
+    </script>
+  </body>
+</html>

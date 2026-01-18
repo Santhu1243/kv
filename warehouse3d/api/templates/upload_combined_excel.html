@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Bins & Products</title>
+  </head>
+  <body>
+    <h2>Upload Combined Excel (Bins + Products)</h2>
+
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li style="color:{% if message.tags == 'error' %}red{% else %}green{% endif %}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="file" accept=".xlsx" required />
+      <br /><br />
+      <button type="submit">Upload Excel</button>
+    </form>
+
+    <p>
+      <b>Excel must contain:</b><br />
+      Sheet 1: <code>Bins</code><br />
+      Sheet 2: <code>BinProduct</code>
+    </p>
+  </body>
+</html>

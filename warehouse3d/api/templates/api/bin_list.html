@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bin List</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+      }
+      th {
+        background: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Storage Bins</h2>
+
+    <table>
+      <tr>
+        <th>Warehouse</th>
+        <th>Bin Code</th>
+        <th>Row</th>
+        <th>Shelf</th>
+        <th>Level</th>
+        <th>X</th>
+        <th>Y</th>
+        <th>Z</th>
+        <th>Zone</th>
+      </tr>
+
+      {% for bin in bins %}
+      <tr>
+        <td>{{ bin.warehouse.code }}</td>
+        <td>{{ bin.bin_code }}</td>
+        <td>{{ bin.row }}</td>
+        <td>{{ bin.shelf }}</td>
+        <td>{{ bin.level }}</td>
+        <td>{{ bin.x }}</td>
+        <td>{{ bin.y }}</td>
+        <td>{{ bin.z }}</td>
+        <td>{{ bin.zone }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="9">No bins created yet</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <p>
+      <a href="{% url 'create_bin' %}">+ Create new bin</a>
+    </p>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+{
+  "rows": [
+    {
+      "row_id": 1,
+      "shelves": [
+        {
+          "shelf_id": 1,
+          "levels": [
+            {
+              "level": 1,
+              "bin": {
+                "label": "R1-S1-L1",
+                "type": "carton",
+                "qty": 120,
+                "abc": "A",
+                "hits": 950,
+                "width": 1.2,
+                "depth": 1.2,
+                "height": 0.6
+              }
+            },
+            {
+              "level": 2,
+              "bin": {
+                "label": "R1-S1-L2",
+                "type": "carton",
+                "qty": 60,
+                "abc": "B",
+                "hits": 420,
+                "width": 1.2,
+                "depth": 1.2,
+                "height": 0.6
+              }
+            },
+            {
+              "level": 3,
+              "bin": {
+                "label": "R1-S1-L3",
+                "type": "carton",
+                "qty": 20,
+                "abc": "C",
+                "hits": 80,
+                "width": 1.2,
+                "depth": 1.2,
+                "height": 0.6
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

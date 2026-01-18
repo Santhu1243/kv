@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>3D Warehouse Viewer – ABC Analysis</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+      }
+
+      #toolbar {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: white;
+        padding: 10px;
+        border-radius: 6px;
+        z-index: 10;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      #container {
+        width: 100vw;
+        height: 100vh;
+      }
+
+      #hoverLabel {
+        position: absolute;
+        display: none;
+        background: rgba(0, 0, 0, 0.75);
+        color: white;
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+        pointer-events: none;
+        z-index: 20;
+      }
+
+      #binDetails {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background: white;
+        padding: 10px;
+        width: 260px;
+        border-radius: 6px;
+        font-size: 13px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Toolbar -->
+    <div id="toolbar">
+      <b>ABC Analysis</b><br /><br />
+      <button id="btnABC">Toggle ABC</button>
+    </div>
+
+    <!-- Scene -->
+    <div id="container"></div>
+
+    <!-- Hover -->
+    <div id="hoverLabel"></div>
+
+    <!-- Bin Details -->
+    <div id="binDetails">None selected</div>
+
+    <!-- Required invisible placeholders -->
+    <div id="loading" style="display: none"></div>
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+
+    <!-- App -->
+    <script src="/static/js/script.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Warehouse Heatmap</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container" style="width: 100%; height: 100vh"></div>
+
+    <!-- ✅ THREE.JS MUST LOAD FIRST -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js"></script>
+
+    <!-- ✅ YOUR JS MUST LOAD AFTER -->
+    <script src="{% static 'warehouse/warehouse-heatmap-template.js' %}"></script>
+  </body>
+</html>

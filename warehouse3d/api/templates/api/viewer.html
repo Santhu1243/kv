@@ -1,0 +1,162 @@
+{% extends "api/base-2.html" %} {% block content %}
+<style>
+  img.logo {
+    width: 180px;
+    margin: 0 auto;
+    display: flex;
+    margin-bottom: 15px;
+  }
+  .bg-warning {
+    background: #f5941b;
+    color: black;
+  }
+  button#btnResetCam {
+    background: white;
+    color: black;
+  }
+  .container.btns {
+    /* display: flex; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  #information {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    width: 260px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+</style>
+
+<div id="container">
+  <div id="loading">
+    <div class="spinner"></div>
+    Loading Warehouse...
+  </div>
+
+  <div id="controls">
+    <div class="container bg-white">
+      {% load static %}
+      <img src="{% static 'images/logo.png' %}" class="logo" alt="" />
+    </div>
+    <div class="d-none" style="display: none">
+      <h3>🏭 Warehouse Controls</h3>
+      <div class="control-group">
+        <label>Warehouse Rows:</label>
+        <input id="rows" type="range" min="3" max="8" value="5" />
+        <div id="rowsValue">5</div>
+      </div>
+      <div class="control-group">
+        <label>Shelves per Row:</label>
+        <input id="shelves" type="range" min="5" max="15" value="8" />
+        <div id="shelvesValue">8</div>
+      </div>
+      <div class="control-group">
+        <label>Shelf Height:</label>
+        <input id="height" type="range" min="3" max="6" value="4" />
+        <div id="heightValue">4</div>
+      </div>
+      <div class="control-group">
+        <label><input id="palletRacking" type="checkbox" checked /> Pallet Racking</label>
+      </div>
+    </div>
+    <div class="container btns">
+      <button style="display: none">🔄 Regenerate</button>
+      <button id="btnToggleAnim" style="display: none">⏯ Animation</button>
+      <button id="btnResetCam" style="display: none">📷 Reset View</button>
+      <button class="bg-warning">Stock Overview</button>
+      <button class="bg-warning">PF Recommendation</button>
+      <button class="bg-warning">ABC Analysis</button>
+      <button class="bg-warning">PF Uitilization</button>
+      <button id="btnRegenerate" class="bg-white">📷 Reset View</button>
+    </div>
+  </div>
+</div>
+<div id="information">
+  <div style="margin-top: 12px">
+    <h2>ABC Analysis</h2>
+    <strong>Properties</strong>
+
+    <div style="margin-top: 12px">
+      <strong>Selected Bin</strong>
+      <div id="binDetails">None selected</div>
+    </div>
+    <div style="margin-top: 12px">
+      🔴 - A items (high value)<br />
+      🟢 - B items (medium value)<br />
+      🔵 - C items (low value)<br />
+      ⚪ - D items (High rise)<br />
+
+      <br />
+    </div>
+    <div id="hoverLabel"></div>
+    <div id="binCount" class="hud"></div>
+
+    <!-- product modal -->
+    <div id="productModal">
+      <div class="panel">
+        <h3 style="margin: 0 0 8px 0; color: #4fc3f7">Edit / Add Product</h3>
+        <div style="display: flex; gap: 12px; align-items: center">
+          <img id="pm_preview" class="img-thumb" src="https://via.placeholder.com/72" />
+          <div style="flex: 1">
+            <label>Product Name</label
+            ><input
+              id="pm_name"
+              type="text"
+              style="width: 100%; padding: 8px; border-radius: 6px; background: #0b1114; border: 1px solid #2b3940; color: #fff" />
+            <label>SKU</label
+            ><input
+              id="pm_sku"
+              type="text"
+              style="width: 100%; padding: 8px; border-radius: 6px; background: #0b1114; border: 1px solid #2b3940; color: #fff" />
+          </div>
+        </div>
+        <label>Batch</label
+        ><input
+          id="pm_batch"
+          type="text"
+          style="width: 100%; padding: 8px; border-radius: 6px; background: #0b1114; border: 1px solid #2b3940; color: #fff" />
+        <label>Expiry</label
+        ><input
+          id="pm_expiry"
+          type="date"
+          style="width: 100%; padding: 8px; border-radius: 6px; background: #0b1114; border: 1px solid #2b3940; color: #fff" />
+        <label>Quantity</label
+        ><input
+          id="pm_qty"
+          type="number"
+          style="width: 100%; padding: 8px; border-radius: 6px; background: #0b1114; border: 1px solid #2b3940; color: #fff" />
+        <label>Image URL</label
+        ><input
+          id="pm_image"
+          type="text"
+          style="width: 100%; padding: 8px; border-radius: 6px; background: #0b1114; border: 1px solid #2b3940; color: #fff" />
+        <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: flex-end">
+          <button id="pm_save">Save</button>
+          <button id="pm_cancel" style="background: #666">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- confirm modal -->
+    <div id="confirmModal">
+      <div class="panel">
+        <div id="confirmText" style="font-weight: 600">Move Bin?</div>
+        <p id="confirmDetails" style="margin: 8px 0 16px 0; color: #bcd"></p>
+        <div style="display: flex; gap: 12px; justify-content: center">
+          <button id="confirmYes">Yes</button>
+          <button id="confirmNo" style="background: #666">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+</div>

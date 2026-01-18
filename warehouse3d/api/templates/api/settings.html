@@ -1,0 +1,126 @@
+{% extends "api/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="settings-container">
+
+  <h2>Warehouse Configuration</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Layout -->
+    <fieldset>
+      <legend>Warehouse Layout</legend>
+
+      <label>
+        Rows
+        <input type="number" name="rows" min="1" max="50" value="{{ config.rows }}">
+      </label>
+
+      <label>
+        Racks per Row
+        <input type="number" name="racks_per_row" min="1" max="50" value="{{ config.racks_per_row }}">
+      </label>
+
+      <label>
+        Levels per Rack
+        <input type="number" name="levels" min="1" max="10" value="{{ config.max_levels }}">
+      </label>
+    </fieldset>
+
+    <!-- Rack -->
+    <fieldset>
+      <legend>Rack Properties</legend>
+
+      <label>
+        Rack Type
+        <select name="rack_type">
+          <option value="basic" {% if config.rack_type == "basic" %}selected{% endif %}>Basic</option>
+          <option value="pallet" {% if config.rack_type == "pallet" %}selected{% endif %}>Pallet</option>
+        </select>
+      </label>
+
+      <label>
+        Rack Width (m)
+        <input type="number" step="0.1" name="rack_width" value="{{ config.rack_width }}">
+      </label>
+
+      <label>
+        Rack Depth (m)
+        <input type="number" step="0.1" name="rack_depth" value="{{ config.rack_depth }}">
+      </label>
+    </fieldset>
+
+    <!-- Bin -->
+    <fieldset>
+      <legend>Bin Dimensions</legend>
+
+      <label>
+        Bin Width (m)
+        <input type="number" step="0.1" name="bin_width" value="{{ config.bin_width }}">
+      </label>
+
+      <label>
+        Bin Height (m)
+        <input type="number" step="0.1" name="bin_height" value="{{ config.bin_height }}">
+      </label>
+
+      <label>
+        Bin Depth (m)
+        <input type="number" step="0.1" name="bin_depth" value="{{ config.bin_depth }}">
+      </label>
+    </fieldset>
+
+    <button type="submit">Save & Open 3D Viewer</button>
+
+  </form>
+</div>
+<style>
+  .settings-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #0e1621;
+  color: #eaeaea;
+  border-radius: 10px;
+}
+
+fieldset {
+  border: 1px solid #2f3a42;
+  margin-bottom: 20px;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+legend {
+  padding: 0 8px;
+  font-weight: bold;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+input, select {
+  padding: 8px;
+  background: #101a25;
+  color: #fff;
+  border: 1px solid #2f3a42;
+  border-radius: 4px;
+}
+
+button {
+  padding: 12px 20px;
+  background: #1e88e5;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+</style>
+{% endblock %}
